@@ -18,22 +18,19 @@ class Program
     {
         DiffAndSummDelegate diffAndSummDelegate = CalculateDiff;
         diffAndSummDelegate += CalculateSumm;
+        diffAndSummDelegate -= CalculateSumm;
         Console.WriteLine(diffAndSummDelegate.Invoke(10, 5));
         Console.WriteLine(diffAndSummDelegate(10, 5));
         
         // multicast delegate (мультикаст делегат или многоадресный)
-        ShowDelegate showDelegate = Show1;
-        showDelegate += Show2;
-        showDelegate += Show3;
-        showDelegate += Show4;
-        showDelegate += Show5;
+        ShowDelegate showDelegate1 = Show1;
+        showDelegate1 += Show2;
+        showDelegate1 += Show3;
         
-        showDelegate.Invoke();
+        ShowDelegate showDelegate2 = Show4;
+        showDelegate2 += Show5;
         
-        showDelegate -= Show2;
-        showDelegate -= Show3;
-        showDelegate -= Show4;
-        showDelegate -= Show5;
+        ShowDelegate showDelegate = showDelegate1 + showDelegate2;
         showDelegate();
     }
 }
