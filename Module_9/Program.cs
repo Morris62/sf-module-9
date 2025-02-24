@@ -5,13 +5,10 @@ class Program
     // Анонимные методы
     // профит - экономия времени
     // нюансы - доступ к переменным во внешней среде
-
-    public delegate void ShowMessageDelegate(string message);
-
+    delegate int RandomNumberDelegate();
     static void Main(string[] args)
     {
-        ShowMessageDelegate showMessageDelegate = (message) => Console.WriteLine(message);
-        
-        showMessageDelegate.Invoke("Hello World!");
+        RandomNumberDelegate randomNumberDelegate = () =>  new Random().Next(0, 100);
+        Console.WriteLine(randomNumberDelegate.Invoke().ToString("000"));
     }
 }
