@@ -6,14 +6,14 @@ class Program
     // профит - экономия времени
     // нюансы - доступ к переменным во внешней среде
 
-    public delegate void ShowMessageDelegate(string message);
+    delegate int RandomNumberDelegate();
 
     static void Main(string[] args)
     {
-        ShowMessageDelegate showMessageDelegate = delegate(string message)
+        RandomNumberDelegate randomNumberDelegate = delegate()
         {
-            Console.WriteLine(message);
+            return Random.Shared.Next(0, 100);
         };
-        showMessageDelegate.Invoke("Hello World!");
+        Console.WriteLine(randomNumberDelegate.Invoke().ToString("000"));
     }
 }
