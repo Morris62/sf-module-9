@@ -6,22 +6,14 @@ class Program
     // профит - экономия времени
     // нюансы - доступ к переменным во внешней среде
 
-    public delegate string GreetingDelegate(string name);
-
-    public static string Greeting(string name)
-    {
-        return $"Привет @{name}! Добро пожаловать на SkillFactory!";
-    }
+    public delegate void ShowMessageDelegate(string message);
 
     static void Main(string[] args)
     {
-        string exMessage = "Внешний мир!";
-        //GreetingDelegate greetingDelegate = Greeting;
-        GreetingDelegate greetingDelegate = delegate(string name)
+        ShowMessageDelegate showMessageDelegate = delegate(string message)
         {
-            return $"{exMessage}Привет @{name}! Добро пожаловать на SkillFactory!";
+            Console.WriteLine(message);
         };
-        string greetingMessage = greetingDelegate.Invoke("Будущий гуру");
-        Console.WriteLine(greetingMessage);
+        showMessageDelegate.Invoke("Hello World!");
     }
 }
