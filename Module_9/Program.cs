@@ -6,7 +6,7 @@ public class Program
     {
         var employee1 = new Employee { Id = 1, Name = "Иван", Experience = 2, Salary = 10_000 };
         var employee2 = new Employee { Id = 2, Name = "Петр", Experience = 5, Salary = 120_000 };
-        var employee3 = new Employee { Id = 2, Name = "Степан", Experience = 15, Salary = 210_000 };
+        var employee3 = new Employee { Id = 3, Name = "Степан", Experience = 15, Salary = 210_000 };
         var employees = new List<Employee>
         {
             employee1, employee2, employee3
