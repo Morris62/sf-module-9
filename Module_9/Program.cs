@@ -1,36 +1,36 @@
-﻿using System.Data.SqlTypes;
-
-namespace Module_9;
+﻿namespace Module_9;
 
 class Program
 {
-    delegate int DiffAndSummDelegate(int a, int b);
-    delegate void ShowDelegate();
-    static int CalculateDiff(int a, int b) => a - b;
-    static int CalculateSumm(int a, int b) => a + b;
-    static void Show1() => Console.WriteLine("Show1");
-    static void Show2() => Console.WriteLine("Show2");
-    static void Show3() => Console.WriteLine("Show3");
-    static void Show4() => Console.WriteLine("Show4");
-    static void Show5() => Console.WriteLine("Show5");
+    delegate void ShowMessageDelegate();
+    delegate int SumDelegate(int a, int b, int c);
+    delegate bool CheckLengthDelegate(string _row);
     
     static void Main(string[] args)
     {
-        DiffAndSummDelegate diffAndSummDelegate = CalculateDiff;
-        diffAndSummDelegate += CalculateSumm;
-        diffAndSummDelegate -= CalculateSumm;
-        Console.WriteLine(diffAndSummDelegate.Invoke(10, 5));
-        Console.WriteLine(diffAndSummDelegate(10, 5));
+        ShowMessageDelegate showMessageDelegate = ShowMessage;
+        showMessageDelegate();
         
-        // multicast delegate (мультикаст делегат или многоадресный)
-        ShowDelegate showDelegate1 = Show1;
-        showDelegate1 += Show2;
-        showDelegate1 += Show3;
+        SumDelegate sumDelegate = Sum;
+        var result = sumDelegate(10, 20, 30);
+        Console.WriteLine(result);
         
-        ShowDelegate showDelegate2 = Show4;
-        showDelegate2 += Show5;
-        
-        ShowDelegate showDelegate = showDelegate1 + showDelegate2;
-        showDelegate();
+        CheckLengthDelegate checkLengthDelegate = CheckLength;
+        var status = checkLengthDelegate.Invoke("skill_factory");
+        Console.WriteLine(status);
+    }
+    static void ShowMessage()
+    {
+        Console.WriteLine("Hello World!");
+    }
+    static int Sum(int a, int b, int c)
+    {
+        return a + b + c;
+    }
+    static bool CheckLength(string _row)
+    {
+        if (_row.Length > 3)
+            return true;
+        return false;
     }
 }
