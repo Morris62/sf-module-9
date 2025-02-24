@@ -8,14 +8,14 @@ class Program
     
     static void Main(string[] args)
     {
-        ShowMessageDelegate showMessageDelegate = ShowMessage;
+        Action showMessageDelegate = ShowMessage;
         showMessageDelegate();
         
-        SumDelegate sumDelegate = Sum;
+        Func<int,int,int,int> sumDelegate = Sum;
         var result = sumDelegate(10, 20, 30);
         Console.WriteLine(result);
         
-        CheckLengthDelegate checkLengthDelegate = CheckLength;
+        Predicate<string> checkLengthDelegate = CheckLength;
         var status = checkLengthDelegate.Invoke("skill_factory");
         Console.WriteLine(status);
     }
