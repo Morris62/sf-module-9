@@ -12,7 +12,7 @@ class Program
     {
         RandomNumberDelegate randomNumberDelegate = delegate()
         {
-            return Random.Shared.Next(0, 100);
+            return new Random().Next(0, 100);
         };
         Console.WriteLine(randomNumberDelegate.Invoke().ToString("000"));
     }
