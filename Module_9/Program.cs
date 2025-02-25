@@ -3,31 +3,25 @@
 class Program
 {
     //Кавариантность и контравариантьность делегатов
-    public delegate Car HandlerMethod();
+    delegate void ChildInfo(Child child);
 
-    public static Car CarHadler()
+    static void GetInfo(Child child)
     {
-        return null;
-    }
-
-    public static Lexus LexusHadler()
-    {
-        return null;
+        Console.WriteLine($"Info: {child.GetType()}");
     }
 
     static void Main(string[] args)
     {
-        HandlerMethod handlerLexus = LexusHadler;
+        ChildInfo childInfo = GetInfo;
+        childInfo.Invoke(new Child());
         Console.ReadKey();
     }
 }
 
-class Car
+class Parent
 {
-    
 }
 
-class Lexus : Car
+class Child : Parent
 {
-    
 }
