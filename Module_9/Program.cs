@@ -1,27 +1,40 @@
 ﻿namespace Module_9;
 
+public delegate void Notify();
+
+/// <summary>
+/// Издатель
+/// </summary>
+public class ProcessBuisnessLogic
+{
+    public event Notify ProcessCompleted;
+
+    public void StartProcee()
+    {
+        Console.WriteLine("Процесс начат");
+        OnProcessingComleted();
+    }
+
+    public virtual void OnProcessingComleted()
+    {
+        ProcessCompleted?.Invoke();
+    }
+}
+
+/// <summary>
+/// Подписчик
+/// </summary>
 class Program
 {
-    //Кавариантность и контравариантьность делегатов
-    delegate void ChildInfo(Child child);
-
-    static void GetInfo(Child child)
-    {
-        Console.WriteLine($"Info: {child.GetType()}");
-    }
-
     static void Main(string[] args)
     {
-        ChildInfo childInfo = GetInfo;
-        childInfo.Invoke(new Child());
-        Console.ReadKey();
+        var bl = new ProcessBuisnessLogic();
+        bl.ProcessCompleted += bl_ProcessComplete;
+        bl.StartProcee();
     }
-}
 
-class Parent
-{
-}
-
-class Child : Parent
-{
+    public static void bl_ProcessComplete()
+    {
+        Console.WriteLine("Процесс завершен");
+    }
 }
