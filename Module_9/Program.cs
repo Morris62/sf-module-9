@@ -2,13 +2,32 @@
 
 class Program
 {
-    // Анонимные методы
-    // профит - экономия времени
-    // нюансы - доступ к переменным во внешней среде
-    delegate int RandomNumberDelegate();
+    //Кавариантность и контравариантьность делегатов
+    public delegate Car HandlerMethod();
+
+    public static Car CarHadler()
+    {
+        return null;
+    }
+
+    public static Lexus LexusHadler()
+    {
+        return null;
+    }
+
     static void Main(string[] args)
     {
-        RandomNumberDelegate randomNumberDelegate = () =>  new Random().Next(0, 100);
-        Console.WriteLine(randomNumberDelegate.Invoke().ToString("000"));
+        HandlerMethod handlerLexus = LexusHadler;
+        Console.ReadKey();
     }
+}
+
+class Car
+{
+    
+}
+
+class Lexus : Car
+{
+    
 }
