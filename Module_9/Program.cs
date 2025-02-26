@@ -37,7 +37,7 @@ class Program
             }
             catch (Exception e) when (e is UserException)
             {
-                Console.WriteLine($"{e.GetType().Name}: {e.Message}, {e.Data}, {e.HelpLink}");
+                Console.WriteLine($"{e.GetType().Name}: {e.Message} Время возникновения исключения {e.Data["Время возникновения исключения"]}. Обратитесь {e.HelpLink}");
             }
             catch (Exception e)
             {
