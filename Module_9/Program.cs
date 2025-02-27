@@ -2,7 +2,7 @@
 
 class Program
 {
-    private sealed class UserException : Exception
+    public sealed class UserException : Exception
     {
         public UserException(string message = "Пользовательское исключение!") : base(message)
         {
@@ -37,7 +37,8 @@ class Program
             }
             catch (Exception e) when (e is UserException)
             {
-                Console.WriteLine($"{e.GetType().Name}: {e.Message} Время возникновения исключения {e.Data["Время возникновения исключения"]}. Обратитесь {e.HelpLink}");
+                Console.WriteLine(
+                    $"{e.GetType().Name}: {e.Message} Время возникновения исключения {e.Data["Время возникновения исключения"]}. Обратитесь {e.HelpLink}");
             }
             catch (Exception e)
             {
@@ -66,14 +67,20 @@ class Program
             "Сидоров",
             "Лебедев"
         };
+        Console.WriteLine("Несортированный список фамилий:");
+        foreach (var family in families)
+        {
+            Console.WriteLine(family);
+        }
 
-        var numberReader = new NumberReader();
-        numberReader.NumberEnteredEvent += SortArray;
+        var arraySorter = new ArraySorter();
+        arraySorter.SortEventAsc += SortAsc;
+        arraySorter.SortEventDesc += SortDesc;
         while (true)
         {
             try
             {
-                numberReader.Read();
+                arraySorter.Start();
             }
             catch (Exception ex) when (ex is UserException)
             {
@@ -85,55 +92,43 @@ class Program
             }
         }
 
-        void SortArray(int number)
+        void SortAsc()
         {
-            SortOrder sortOrder;
-            switch (number)
-            {
-                case 1:
-                    Console.WriteLine("Выбрана сортировка от А до Я");
-                    sortOrder = SortOrder.Asc;
-                    break;
-                case 2:
-                    Console.WriteLine("Выбрана сортировка от Я до А");
-                    sortOrder = SortOrder.Desc;
-                    break;
-                default:
-                    sortOrder = SortOrder.Asc;
-                    break;
-            }
-
-            if (sortOrder == SortOrder.Asc)
-            {
-                families = families.OrderBy(x => x).ToArray();
-            }
-            else
-            {
-                families = families.OrderByDescending(x => x).ToArray();
-            }
-
+            Console.WriteLine("Выбрана сортировка от А до Я");
+            families = families.OrderBy(x => x).ToArray();
             foreach (var family in families)
             {
                 Console.WriteLine(family);
             }
         }
 
+        void SortDesc()
+        {
+            Console.WriteLine("Выбрана сортировка от Я до А");
+            families = families.OrderByDescending(x => x).ToArray();
+            foreach (var family in families)
+            {
+                Console.WriteLine(family);
+            }
+        }
+        
         #endregion
     }
 
-    private enum SortOrder
+    enum SortOrder
     {
-        Asc,
+        Asc = 1,
         Desc
     }
 
-    class NumberReader
+    class ArraySorter
     {
-        public delegate void NumberEnteredDelegate(int number);
+        public delegate void SortDelegate();
 
-        public event NumberEnteredDelegate NumberEnteredEvent;
+        public event SortDelegate SortEventAsc;
+        public event SortDelegate SortEventDesc;
 
-        public void Read()
+        public void Start()
         {
             Console.WriteLine();
             Console.WriteLine("Введите направление сортировки 1(А->Я) или 2(Я->А)");
@@ -145,12 +140,15 @@ class Program
                 throw new UserException("Ошибка формата данных!");
             }
 
-            NumberEntered(number);
-        }
-
-        protected virtual void NumberEntered(int number)
-        {
-            NumberEnteredEvent?.Invoke(number);
+            switch ((SortOrder)number)
+            {
+                case SortOrder.Asc:
+                    SortEventAsc?.Invoke();
+                    break;
+                case SortOrder.Desc:
+                    SortEventDesc?.Invoke();
+                    break;
+            }
         }
     }
 }
